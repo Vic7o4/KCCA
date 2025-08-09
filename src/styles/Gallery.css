@@ -1,0 +1,204 @@
+.gallery-page {
+  min-height: calc(100vh - 80px);
+  background-color: #f8f9fa;
+}
+
+.gallery-hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+              url('https://images.unsplash.com/photo-1580541832626-2a7131ee809f?auto=format&fit=crop&q=80');
+  background-size: cover;
+  background-position: center;
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  padding: 0 20px;
+}
+
+.gallery-hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.gallery-hero p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.gallery-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.gallery-filters {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.filter-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background-color: #fff;
+  color: #333;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filter-button:hover {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.filter-button.active {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+.image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  color: white;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .image-overlay {
+  opacity: 1;
+}
+
+.image-overlay h3 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.image-overlay p {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90vh;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.modal-content img {
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
+  object-fit: contain;
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.modal-close:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-info {
+  padding: 20px;
+  background-color: white;
+}
+
+.modal-info h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.modal-info p {
+  color: #666;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .gallery-hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .gallery-hero p {
+    font-size: 1rem;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+  }
+  
+  .filter-button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+} 

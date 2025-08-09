@@ -1,0 +1,171 @@
+.institutions-page {
+  min-height: calc(100vh - 80px);
+  background-color: #f8f9fa;
+}
+
+.institutions-hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+              url('https://images.unsplash.com/photo-1577083552431-6e5fd01988392?auto=format&fit=crop&q=80');
+  background-size: cover;
+  background-position: center;
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  padding: 0 20px;
+}
+
+.institutions-hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.institutions-hero p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.institutions-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Tab Navigation */
+.tab-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.tab-button {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 25px;
+  background: white;
+  color: #333;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tab-button:hover {
+  background: #4a90e2;
+  color: white;
+}
+
+.tab-button.active {
+  background: #4a90e2;
+  color: white;
+}
+
+/* Section Headers */
+.clubs-section h2,
+.schools-section h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Grid Layout */
+.institutions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+/* Institution Cards */
+.institution-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.institution-card:hover {
+  transform: translateY(-5px);
+}
+
+.institution-image {
+  height: 200px;
+  overflow: hidden;
+}
+
+.institution-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.institution-card:hover .institution-image img {
+  transform: scale(1.05);
+}
+
+.institution-info {
+  padding: 20px;
+}
+
+.institution-info h3 {
+  font-size: 1.4rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.institution-info p {
+  color: #666;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.institution-info i {
+  color: #4a90e2;
+  width: 20px;
+}
+
+.contact-button {
+  display: inline-block;
+  background: #4a90e2;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.contact-button:hover {
+  background: #357abd;
+}
+
+@media (max-width: 768px) {
+  .institutions-hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .tab-navigation {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .tab-button {
+    width: 100%;
+  }
+  
+  .institutions-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .institution-image {
+    height: 180px;
+  }
+} 
