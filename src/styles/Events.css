@@ -118,6 +118,9 @@
 
 .event-details {
   padding: 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .event-date,
@@ -144,19 +147,55 @@
   line-height: 1.6;
 }
 
+.event-footer {
+  margin-top: auto;
+  padding-top: 15px;
+  border-top: 1px solid #eaeaea;
+}
+
+.fee-deadline-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.registration-fee {
+  background-color: #f8f4ff;
+  color: #6a1b9a;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.95em;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid #e6d7ff;
+}
+
+.registration-fee i {
+  font-size: 0.9em;
+}
+
+.registration-fee span {
+  color: #4a148c;
+}
+
 .register-button {
   width: 100%;
-  padding: 15px;
+  padding: 12px;
   border: none;
   background: #4a90e2;
   color: white;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
   text-align: center;
   text-decoration: none;
   display: block;
   box-sizing: border-box;
+  border-radius: 5px;
+  font-weight: 500;
 }
 
 .register-button:hover:not(.disabled) {
@@ -170,6 +209,158 @@
   cursor: not-allowed;
   color: white;
   text-decoration: none;
+}
+
+/* Registration Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.registration-modal {
+  background: white;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  padding: 5px 10px;
+  line-height: 1;
+}
+
+.close-button:hover {
+  color: #333;
+}
+
+.registration-modal h2 {
+  margin-top: 0;
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.event-details {
+  color: #666;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.registration-form .form-group {
+  margin-bottom: 20px;
+}
+
+.registration-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.registration-form input[type="text"],
+.registration-form input[type="email"],
+.registration-form input[type="tel"],
+.registration-form textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.registration-form input:focus,
+.registration-form textarea:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.registration-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.cancel-button,
+.submit-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-button {
+  background: #f1f1f1;
+  color: #333;
+}
+
+.cancel-button:hover {
+  background: #e0e0e0;
+}
+
+.submit-button {
+  background: #4a90e2;
+  color: white;
+}
+
+.submit-button:hover {
+  background: #357abd;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .registration-modal {
+    padding: 20px 15px;
+  }
+  
+  .registration-modal h2 {
+    font-size: 1.5rem;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .cancel-button,
+  .submit-button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
 }
 
 @media (max-width: 768px) {

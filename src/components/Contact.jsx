@@ -72,8 +72,7 @@ const Contact = () => {
                 <i className="fas fa-envelope"></i>
                 <div>
                   <h3>Email</h3>
-                  <p>info@kiambuchess.org</p>
-                  <p>support@kiambuchess.org</p>
+                  <p>kiambucountychessassociation@gmail.com</p>
                 </div>
               </div>
 

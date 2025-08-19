@@ -49,7 +49,7 @@ const Footer = () => {
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon">
               <i className="fab fa-instagram"></i>
             </a>
-            <a href="mailto:support@kiambucountychess.org" className="social-icon">
+            <a href="mailto:kiambucountychessassociation@gmail.com" className="social-icon">
               <i className="fas fa-envelope"></i>
             </a>
             <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="social-icon">
@@ -67,7 +67,7 @@ const Footer = () => {
         </div>
         <div className="contact-item">
           <i className="fas fa-envelope"></i>
-          <span>support@kiambucountychess.org</span>
+          <span>kiambucountychessassociation@gmail.com</span>
         </div>
         <div className="contact-item">
           <i className="fas fa-map-marker-alt"></i>

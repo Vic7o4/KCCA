@@ -5,7 +5,64 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
-const mysql = require('mysql2');
+
+// Static data
+const events = [
+  {
+    id: 1,
+    title: 'Kiambu County Chess Championship 2024',
+    date: '2024-06-15',
+    location: 'Kiambu Town Hall',
+    description: 'Annual championship event featuring players from across the county competing for the prestigious title.',
+    registration_deadline: '2024-06-10',
+    poster_url: null
+  },
+  {
+    id: 2,
+    title: 'Youth Chess Workshop',
+    date: '2024-05-25',
+    location: 'Thika Community Center',
+    description: 'Special training session for young players aged 8-16, featuring instruction from experienced coaches.',
+    registration_deadline: '2024-05-20',
+    poster_url: null
+  }
+];
+
+const news = [
+  {
+    id: 1,
+    title: 'Kiambu Chess Prodigy Wins National Championship',
+    content: '14-year-old Sarah Muthoni from Kiambu makes history as the youngest national chess champion. Her remarkable journey from local chess clubs to national recognition inspires young players across the country.',
+    category: 'Achievements',
+    image_url: null,
+    created_at: '2024-04-15T10:00:00Z'
+  },
+  {
+    id: 2,
+    title: 'KCCA Launches School Chess Program',
+    content: 'The Kiambu County Chess Association has partnered with the Department of Education to launch an ambitious chess program in local schools.',
+    category: 'Community',
+    image_url: null,
+    created_at: '2024-04-10T14:30:00Z'
+  }
+];
+
+const gallery = [
+  {
+    id: 1,
+    image_url: '/images/chess-tournament-1.jpg',
+    category: 'Tournaments',
+    caption: 'County Championship Finals 2024',
+    created_at: '2024-04-01T09:15:00Z'
+  },
+  {
+    id: 2,
+    image_url: '/images/youth-training.jpg',
+    category: 'Training',
+    caption: 'Youth Training Camp',
+    created_at: '2024-03-25T11:20:00Z'
+  }
+];
 
 // JWT Secret
 const JWT_SECRET = 'your-secret-key';
@@ -27,62 +84,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Database connection
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'kiambu123', // New password we just set
-  database: 'kiambu_chess'
-});
-
-// Connect to database
-db.connect((err) => {
-  if (err) {
-    console.error('Error connecting to MySQL:', err);
-    return;
-  }
-  console.log('Connected to MySQL database');
-  
-  // Create tables if they don't exist
-  const createTableStatements = [
-    `CREATE TABLE IF NOT EXISTS tournaments (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      title VARCHAR(255) NOT NULL,
-      date DATE NOT NULL,
-      location VARCHAR(255) NOT NULL,
-      description TEXT,
-      registration_deadline DATE,
-      poster_url VARCHAR(255),
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )`,
-    `CREATE TABLE IF NOT EXISTS news (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      title VARCHAR(255) NOT NULL,
-      content TEXT NOT NULL,
-      category VARCHAR(50),
-      image_url VARCHAR(255),
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )`,
-    `CREATE TABLE IF NOT EXISTS gallery (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      image_url VARCHAR(255) NOT NULL,
-      category VARCHAR(50),
-      caption TEXT,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )`
-  ];
-
-  // Execute each create table statement separately
-  for (const statement of createTableStatements) {
-    db.query(statement, (err) => {
-      if (err) {
-        console.error('Error creating table:', err);
-        return;
-      }
-      console.log('Table created or verified successfully');
-    });
-  }
-});
+// In-memory data storage
+let eventIdCounter = events.length > 0 ? Math.max(...events.map(e => e.id)) + 1 : 1;
+let newsIdCounter = news.length > 0 ? Math.max(...news.map(n => n.id)) + 1 : 1;
+let galleryIdCounter = gallery.length > 0 ? Math.max(...gallery.map(g => g.id)) + 1 : 1;
 
 const app = express();
 
@@ -151,25 +156,116 @@ app.post('/api/admin/login', (req, res) => {
 });
 
 // Tournament endpoints
-app.post('/api/admin/tournaments', authenticateToken, upload.single('poster'), (req, res) => {
+// Events endpoints
+app.get('/api/events', (req, res) => {
+  res.json(events);
+});
+
+app.get('/api/events/:id', (req, res) => {
+  const event = events.find(e => e.id === parseInt(req.params.id));
+  if (!event) return res.status(404).json({ message: 'Event not found' });
+  res.json(event);
+});
+
+app.post('/api/admin/events', authenticateToken, upload.single('poster'), (req, res) => {
   try {
     const { title, date, location, description, registrationDeadline } = req.body;
     const posterUrl = req.file ? `/uploads/${req.file.filename}` : null;
-
-    const query = 'INSERT INTO tournaments (title, date, location, description, registration_deadline, poster_url) VALUES (?, ?, ?, ?, ?, ?)';
-    db.query(query, [title, date, location, description, registrationDeadline, posterUrl], (err, result) => {
-      if (err) {
-        console.error('Error creating tournament:', err);
-        return res.status(500).json({ message: 'Failed to create tournament' });
-      }
-      res.status(201).json({
-        message: 'Tournament created successfully',
-        tournamentId: result.insertId
-      });
+    
+    const newEvent = {
+      id: eventIdCounter++,
+      title,
+      date,
+      location,
+      description,
+      registration_deadline: registrationDeadline,
+      poster_url: posterUrl,
+      created_at: new Date().toISOString()
+    };
+    
+    events.push(newEvent);
+    res.status(201).json({
+      message: 'Event created successfully',
+      event: newEvent
     });
   } catch (error) {
-    console.error('Error creating tournament:', error);
-    res.status(500).json({ message: 'Failed to create tournament' });
+    console.error('Error creating event:', error);
+    res.status(500).json({ message: 'Failed to create event' });
+  }
+});
+
+// News endpoints
+app.get('/api/news', (req, res) => {
+  res.json(news);
+});
+
+app.get('/api/news/:id', (req, res) => {
+  const newsItem = news.find(n => n.id === parseInt(req.params.id));
+  if (!newsItem) return res.status(404).json({ message: 'News item not found' });
+  res.json(newsItem);
+});
+
+app.post('/api/admin/news', authenticateToken, upload.single('image'), (req, res) => {
+  try {
+    const { title, content, category } = req.body;
+    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+    
+    const newsItem = {
+      id: newsIdCounter++,
+      title,
+      content,
+      category,
+      image_url: imageUrl,
+      created_at: new Date().toISOString()
+    };
+    
+    news.push(newsItem);
+    res.status(201).json({
+      message: 'News created successfully',
+      news: newsItem
+    });
+  } catch (error) {
+    console.error('Error creating news:', error);
+    res.status(500).json({ message: 'Failed to create news' });
+  }
+});
+
+// Gallery endpoints
+app.get('/api/gallery', (req, res) => {
+  res.json(gallery);
+});
+
+app.get('/api/gallery/:id', (req, res) => {
+  const galleryItem = gallery.find(g => g.id === parseInt(req.params.id));
+  if (!galleryItem) return res.status(404).json({ message: 'Gallery item not found' });
+  res.json(galleryItem);
+});
+
+app.post('/api/admin/gallery', authenticateToken, upload.single('image'), (req, res) => {
+  try {
+    const { category, caption } = req.body;
+    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+    
+    if (!imageUrl) {
+      return res.status(400).json({ message: 'Image is required' });
+    }
+    
+    const galleryItem = {
+      id: galleryIdCounter++,
+      image_url: imageUrl,
+      category,
+      caption,
+      created_at: new Date().toISOString()
+    };
+    
+    gallery.push(galleryItem);
+    res.status(201).json({
+      message: 'Image uploaded successfully',
+      item: galleryItem
+    });
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    res.status(500).json({ message: 'Failed to upload image' });
   }
 });
 
